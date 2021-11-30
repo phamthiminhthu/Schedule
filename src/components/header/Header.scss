@@ -1,0 +1,28 @@
+#header-page {
+    #basic-navbar-nav {
+        margin: -40px;
+        .list-menu {
+            a {
+                font-size: 16px;
+                line-height: 2.4000000000000004rem;
+                font-weight: 400;
+                text-transform: uppercase;
+                opacity: 0.8;
+                letter-spacing: .06rem;
+                padding: 33px 15px;
+                font-family: "Oswald", sans-serif;
+                button {
+                    font-size: 14px;
+                    padding: 10px;
+                    margin: 0px 4px;
+                    width: 130px;
+                    border-radius: 0px;
+                    font-family: "Oswald", sans-serif;
+                }
+                button:hover{
+                    border-radius: 10px;
+                }
+            }
+        }
+    }
+}
