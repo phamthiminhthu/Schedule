@@ -46,11 +46,11 @@ function showMember(listMember) {
         listMember.map((member, index) => {
             return (
                 member.position == "Leader" ? (
-                    <Col xs="12" key={member.userName + index} className="text-center mb-3">
+                    <Col xs="12" key={member.userName + index + member.position} className="text-center mb-3">
                         {eachMember(member)}
                     </Col>
                 ) : (
-                    <Col key={member.userName + index} className="mt-2">
+                    <Col key={member.userName + index + member.position} className="mt-2">
                         {eachMember(member)}
                     </Col>
                 )

@@ -7,7 +7,7 @@ function showListNews(listNews) {
     return (
         listNews.map((item, index) => {
             return (
-                <Col xs="4">
+                <Col xs="4" key={item.image + index}>
                     <CardNews />
                 </Col>
             )

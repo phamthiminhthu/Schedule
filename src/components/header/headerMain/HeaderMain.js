@@ -6,8 +6,7 @@ import AddLocationIcon from '@mui/icons-material/AddLocation';
 function HeaderMain() {
     return (
         <div className="header-main">
-            <Header />
-            <Container>
+                <Header />
                 <div className="time-running" >
                     <Nav as="ul" >
                         <Nav.Item as="li" className="time-oclock-cirle">
@@ -43,17 +42,17 @@ function HeaderMain() {
                                 </h2>
                                 <h1>
                                     Convenient
-                                    <br/>
-                                    Notes  
+                                    <br />
+                                    Notes
                                     <span>
-                                        <b style={{'color':'#ec398b'}}> 2</b>
-                                        <b style={{'color':'#efa506'}}>0</b>
-                                        <b style={{'color':'#00acee'}}>2</b>
+                                        <b style={{ 'color': '#ec398b' }}> 2</b>
+                                        <b style={{ 'color': '#efa506' }}>0</b>
+                                        <b style={{ 'color': '#00acee' }}>2</b>
                                         <b>1</b>
                                     </span>
                                 </h1>
                                 <h5>
-                                    <AddLocationIcon style={{'color':'#efa506','font-size':'30px'}}></AddLocationIcon>
+                                    <AddLocationIcon style={{ 'color': '#efa506', 'font-size': '30px' }}></AddLocationIcon>
                                     <span className="text-white">Dai Co Viet Street, Ha Noi, Viet Nam</span>
                                 </h5>
 
@@ -63,7 +62,7 @@ function HeaderMain() {
                     </Nav>
 
                 </div>
-            </Container>
+            
         </div>
     )
 
