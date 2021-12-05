@@ -11,7 +11,7 @@ import './App.css';
 // import CalendarNotes from './components/CalendarNotes/CalendarNotes';
 //import Register from './screens/register/Register';
 // import SignIn from './screens/signIn/SignIn';
-
+import Profile from './components/profile/Profile';
 
 function App() {
   return (
@@ -29,6 +29,7 @@ function App() {
       {/* <CalendarNotes /> */}
       {/* <Register/> */}
       {/* <SignIn/> */}
+      <Profile/>
 
     </div>
   );
