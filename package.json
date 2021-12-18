@@ -6,6 +6,10 @@
     "@ciar4n/izmir": "^1.0.1",
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
+    "@fullcalendar/daygrid": "^5.10.1",
+    "@fullcalendar/interaction": "^5.10.1",
+    "@fullcalendar/react": "^5.10.1",
+    "@fullcalendar/timegrid": "^5.10.1",
     "@material-ui/core": "^4.12.3",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@mui/icons-material": "^5.2.0",
@@ -24,7 +28,6 @@
     "react-bootstrap": "^2.0.2",
     "react-calendar": "^3.5.0",
     "react-dom": "^17.0.2",
-    "react-google-maps": "^9.4.5",
     "react-material-ui-carousel": "^3.1.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
