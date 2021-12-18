@@ -35,7 +35,7 @@ export default function CalendarNotes() {
 
   const [timeStart, setTimeStart] = React.useState('');
   const [timeEnd, setTimeEnd] = React.useState('');
-  
+
 
   function handleShow(selectInfo) {
     setShow(true);
@@ -49,7 +49,7 @@ export default function CalendarNotes() {
       calendarApi.unselect()
       let dateClick = selectInfo.startStr;
       setTitle('');
-  
+
       if (title != '') {
         calendarApi.addEvent({
           id: createEventId(),
@@ -64,7 +64,7 @@ export default function CalendarNotes() {
 
   function handleClose(e) {
     setShow(false);
-    console.log("abc" , valueTime.toISOString().slice(0, 19));
+    console.log("abc", valueTime.toISOString().slice(0, 19));
   }
 
   function handelValueTitle(e) {
@@ -84,10 +84,24 @@ export default function CalendarNotes() {
     setCurrentEvents(events)
   }
 
-  function handleTimeEvent(e){
-    console.log(e.target.value)
+  const [clickInfo, setClickInfo] = useState('');
+  const [showDelete, setShowDelete] = useState(false);
+
+  const handleCloseDelete = () => setShowDelete(false);
+  function handleShowDelete(clickInfo) {
+    setShowDelete(true);
+    setClickInfo(clickInfo)
+  }
+  function handleEventClick() {
+    
+    if (clickInfo) {
+      clickInfo.event.remove()
+    }
+    setShowDelete(false)
 
   }
+
+  
 
   return (
     <div className="time-table" style={{ 'width': '80%', 'margin': '0 auto' }}>
@@ -106,6 +120,7 @@ export default function CalendarNotes() {
         weekends={true}
         initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
         select={handleShow}
+        eventClick={handleShowDelete}
         eventContent={renderEventContent} // custom render function
         eventsSet={handleEvents}
       />
@@ -121,7 +136,7 @@ export default function CalendarNotes() {
           <div className="mt-2 mb-3">
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
-                renderInput={(props) => <TextField {...props}/>}
+                renderInput={(props) => <TextField {...props} />}
                 label="DateTimePicker"
                 value={valueTime}
                 onChange={(newValueTime) => {
@@ -153,6 +168,22 @@ export default function CalendarNotes() {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <Modal show={showDelete} onHide={handleCloseDelete}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseDelete}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleEventClick}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </div>
   )
 }
