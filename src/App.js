@@ -1,13 +1,7 @@
 import './App.css';
 import { Container } from 'react-bootstrap';
 import Example from './components/createSchedule/CreateSchedule';
-import HeaderMain from './components/header/headerMain/HeaderMain';
-import Footer from './components/footer/Footer';
-import Reviews from './components/reviews/Reviews';
-import News from './components/news/News';
-import Speaker from './components/speaker/Speaker';
-import ScheduleDemo from './components/scheduleDemo/ScheduleDemo'
-import Introduce from './components/introduce/Introduce'
+
 import HeaderSecond from './components/header/headerSecond/HeaderSecond';
 import HeaderHasAuthor from './components/headerHasAuthor/HeaderHasAuthor';
 import CalendarNotes from './components/CalendarNotes/CalendarNotes';
@@ -18,13 +12,16 @@ import ListSubject from './components/listSubject/ListSubject';
 import AddSubject from './components/addSubject/AddSubject';
 import AddSubjectByTeacher from './components/addSubjectByTeacher/AddSubjectByTeacher';
 // import Profile from './components/profile/Profile';
-
+// import HeaderHome from './components/header/'
 import ShowListScheduleMaker from './components/showListScheduleMaker/ShowListScheduleMaker';
-
+import CreateSubject from './screens/createSubject/CreateSubject';
+import Home from './screens/home/Home';
 
 function App() {
+  
   return (
     <div className="App">
+       <Home/>
       <Container>
 
 
@@ -41,7 +38,7 @@ function App() {
 
 
         {/* <HeaderSecond/>  */}
-        {/* <HeaderHasAuthor/> */}
+       
         {/* <CalendarNotes /> */}
 
 
@@ -57,7 +54,10 @@ function App() {
         {/* <AddSubject /> */}
         {/* <AddSubjectByTeacher/> */}
        
-        <ShowListScheduleMaker/>
+        {/* <ShowListScheduleMaker/> */}
+        {/* <HeaderHome/> */}
+
+       
       </Container>
     </div>
   );

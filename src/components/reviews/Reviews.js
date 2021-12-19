@@ -1,12 +1,10 @@
 import React from 'react';
 import { Col, Row, Container, Nav } from 'react-bootstrap';
-import { Avatar, Paper } from '@mui/material';
+import { Avatar} from '@mui/material';
 import Carousel from 'react-material-ui-carousel';
 import './Reviews.scss';
 import StarIcon from '@mui/icons-material/Star';
 import author from '../../assets/author1.jpeg';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 function star(stars) {
