@@ -14,7 +14,7 @@ export default function ChangePassword() {
                         </Alert>
                         <div className="mt-5">
                             <Card border="light">
-                                <Card.Header>Change password</Card.Header>
+                                <Card.Header className="text-profile">Change password</Card.Header>
                                 <Card.Body>
                                     <TextField sx={{ m: 1 }} label="Current Password" variant="outlined" />
                                     <div >
@@ -22,8 +22,8 @@ export default function ChangePassword() {
                                         <TextField sx={{ m: 1 }} label="Confirm Password" variant="outlined" />
                                     </div>
                                     <div className="float-end">
-                                        <Button className="mx-1 mt-3" variant="primary">Change Password</Button>
-                                        <Button className="mx-1 mt-3" variant="primary">Clear</Button>
+                                        <Button className="mx-1 mt-3 button-profile" variant="primary">Change Password</Button>
+                                        <Button className="mx-1 mt-3 button-profile" variant="primary">Clear</Button>
                                     </div>
                                 </Card.Body>
                             </Card>

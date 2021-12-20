@@ -10,7 +10,7 @@ export default function ProfileDetails() {
                 <Row>
                     <Col xs="3">
                         <Card>
-                            <Card.Header>Profile Picture</Card.Header>
+                            <Card.Header className="text-profile">Profile Picture</Card.Header>
                             <Card.Body className="text-center">
                                 <Card.Title>
                                     <Avatar
@@ -23,7 +23,7 @@ export default function ProfileDetails() {
                                 <Card.Text>
                                     Upload/Change Your Profile Image
                                 </Card.Text>
-                                <Button variant="primary">Upload Avatar</Button>
+                                <Button variant="primary" className="button-profile">Upload Avatar</Button>
                             </Card.Body>
                         </Card>
 
@@ -32,7 +32,7 @@ export default function ProfileDetails() {
                     <Col xs="9">
 
                         <Card>
-                            <Card.Header>Profile Details</Card.Header>
+                            <Card.Header className="text-profile">Profile Details</Card.Header>
                             <Card.Body>
 
                                 <Table borderless>

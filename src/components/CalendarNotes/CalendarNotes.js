@@ -11,6 +11,8 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import Button from '@mui/material/Button';
 import propTypes from 'prop-types';
+import './CalendarNotes.scss';
+import {Row, Col} from 'react-bootstrap';
 
 export default function CalendarNotes() {
 
@@ -33,9 +35,6 @@ export default function CalendarNotes() {
 
   const [selectInfo, setSelectInfo] = React.useState('');
 
-  const [timeStart, setTimeStart] = React.useState('');
-  const [timeEnd, setTimeEnd] = React.useState('');
-
 
   function handleShow(selectInfo) {
     setShow(true);
@@ -51,6 +50,8 @@ export default function CalendarNotes() {
       setTitle('');
 
       if (title != '') {
+        valueTime.setHours(valueTime.getHours() + 7)
+        valueTime2.setHours(valueTime2.getHours() + 7)
         calendarApi.addEvent({
           id: createEventId(),
           title,
@@ -64,20 +65,10 @@ export default function CalendarNotes() {
 
   function handleClose(e) {
     setShow(false);
-    console.log("abc", valueTime.toISOString().slice(0, 19));
   }
 
   function handelValueTitle(e) {
     setTitle(e.target.value);
-  }
-
-  function renderEventContent(eventInfo) {
-    return (
-      <>
-        <b>{eventInfo.timeText} &nbsp;</b>
-        <i> {eventInfo.event.title}</i>
-      </>
-    )
   }
 
   const handleEvents = (events) => {
@@ -92,8 +83,10 @@ export default function CalendarNotes() {
     setShowDelete(true);
     setClickInfo(clickInfo)
   }
+
+
   function handleEventClick() {
-    
+
     if (clickInfo) {
       clickInfo.event.remove()
     }
@@ -101,62 +94,98 @@ export default function CalendarNotes() {
 
   }
 
-  
+
+  //render len timetable
+  function renderEventContent(eventInfo) {
+    return (
+      <>
+        <b>{eventInfo.timeText} &nbsp;</b>
+        <i>{eventInfo.event.title}</i>
+      </>
+    )
+  }
+
+  // function checkTime(startime, endtime){
+  //   const dateStart = startime.toISOString().slice(0, 10);
+  //   const dateEnd = endtime.toISOString().slice(0, 10);
+  //   console.log(dateStart > dateEnd);
+  // }
+
+
 
   return (
     <div className="time-table" style={{ 'width': '80%', 'margin': '0 auto' }}>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        }}
-        initialView='dayGridMonth'
-        editable={true}
-        selectable={true}
-        selectMirror={true}
-        dayMaxEvents={true}
-        weekends={true}
-        initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-        select={handleShow}
-        eventClick={handleShowDelete}
-        eventContent={renderEventContent} // custom render function
-        eventsSet={handleEvents}
-      />
+      <h3 className="mt-5 mb-5 text-center title">Lịch học và ghi chú</h3>
+      <div className="calendar-notes mb-4">
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          headerToolbar={{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+
+          }}
+          initialView='dayGridMonth'
+          editable={true}
+          selectable={true}
+          selectMirror={true}
+          dayMaxEvents={true}
+          weekends={true}
+          initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+          select={handleShow}
+          eventClick={handleShowDelete}
+          eventContent={renderEventContent} // custom render function
+          eventsSet={handleEvents}
+
+        />
+      </div>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Header closeButton className='title-notes-modal'>
+          <Modal.Title >Create New Note</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="mt-2 mb-3">
-            <TextField id="outlined-basic" label="Outlined" variant="outlined" value={title} onChange={handelValueTitle} />
-          </div>
-          <div className="mt-2 mb-3">
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                renderInput={(props) => <TextField {...props} />}
-                label="DateTimePicker"
-                value={valueTime}
-                onChange={(newValueTime) => {
-                  setValueTime(newValueTime);
-                }}
-              />
-            </LocalizationProvider>
-          </div>
-          <div className="mt-2 mb-3">
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                renderInput={(props) => <TextField {...props} />}
-                label="DateTimePicker"
-                value={valueTime2}
-                onChange={(newValueTime2) => {
-                  setValueTime2(newValueTime2);
-                }}
-              />
-            </LocalizationProvider>
-          </div>
+          <Row>
+            <Col xs="12">
+              <div className="mt-2 mb-3">
+                <h6>Title</h6>
+                <TextField fullWidth label="Title" variant="outlined" value={title} onChange={handelValueTitle} />
+              </div>
+            </Col>
+            <Col xs="6">
+              <div className="mt-2 mb-3">
+                <h6>Startime Event</h6>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DateTimePicker
+                    renderInput={(props) => <TextField {...props} />}
+                    label="Startime"
+                    value={valueTime}
+                    onChange={(newValueTime) => {
+                      setValueTime(newValueTime);
+                    }}
+                  />
+                </LocalizationProvider>
+              </div>
+            </Col>
+            <Col xs="6">
+
+              <div className="mt-2 mb-3">
+                <h6>Endtime Event</h6>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DateTimePicker
+                    renderInput={(props) => <TextField {...props} />}
+                    label="Endtime"
+                    value={valueTime2}
+                    onChange={(newValueTime2) => {
+                      setValueTime2(newValueTime2);
+                    }}
+                  />
+                </LocalizationProvider>
+              </div>
+            </Col>
+          </Row>
+
+
 
         </Modal.Body>
         <Modal.Footer>
@@ -170,10 +199,10 @@ export default function CalendarNotes() {
       </Modal>
 
       <Modal show={showDelete} onHide={handleCloseDelete}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Header closeButton className='title-notes-modal'>
+          <Modal.Title className="text-center">Xác nhận</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body>Bạn có muốn xoá ghi chú này không?</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseDelete}>
             Cancel

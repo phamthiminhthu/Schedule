@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import './ListSubject.scss';
 
 const rows: GridRowsProp = [
     { id: 1, col1: 'MI1010', col2: 'Giải tích 1', col3 :'5', col4 : '3', col5 : '0.7' },
@@ -23,7 +24,7 @@ const columns: GridColDef[] = [
 export default function ListSubject() {
 
     return (
-        <div className="list-subject text-center">
+        <div className="list-subject text-center mb-4">
             <h3 class="title text-center mb-5 mt-5">Danh sách học phần</h3>
             <div style={{ height: 600, width: '100%' }}>
                 <DataGrid rows={rows} columns={columns} />

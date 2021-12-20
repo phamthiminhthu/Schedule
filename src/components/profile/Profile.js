@@ -1,22 +1,19 @@
 import * as React from 'react';
 import { Col, Row, Container } from 'react-bootstrap';
-
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import HttpsIcon from '@mui/icons-material/Https';
-
 import ProfileDetails from './profileDetails/ProfileDetails';
 import UpdateProfile from './updateProfile/UpdateProfile';
 import ChangePassword from './changePassword/ChangePassword';
 import TitlePage from '../titlePage/TitlePage';
-
 import './Profile.scss';
+
 
 export default function Profile() {
   const [value, setValue] = React.useState('1');

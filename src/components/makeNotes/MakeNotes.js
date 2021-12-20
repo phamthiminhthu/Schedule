@@ -5,7 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from "@fullcalendar/interaction" // needed for dayClick
 import { INITIAL_EVENTS, createEventId } from './event'
 
-export default function CreateSchedule() {
+export default function MakeNotes() {
 
     const [weekendsVisible, setweek] = useState(true);
     const [currentEvents, setCurrentEvents] = useState([])

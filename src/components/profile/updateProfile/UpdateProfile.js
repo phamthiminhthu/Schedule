@@ -21,7 +21,7 @@ export default function UpdateProfile() {
                     <Col xs="6">
                         <div className="persional-information">
                             <Card border="light" >
-                                <Card.Header>Persional Information</Card.Header>
+                                <Card.Header className="text-profile">Persional Information</Card.Header>
                                 <Card.Body>
 
                                     <TextField
@@ -79,7 +79,7 @@ export default function UpdateProfile() {
                     </Col>
                     <Col xs="6">
                         <Card border="light">
-                            <Card.Header>Contact Information</Card.Header>
+                            <Card.Header className="text-profile">Contact Information</Card.Header>
                             <Card.Body>
                                 <TextField
                                     sx={{ m: 1 }}
@@ -107,7 +107,7 @@ export default function UpdateProfile() {
                     </Col>
                     <Col xs="12">
                         <div className="float-end">
-                            <Button className="mx-1 mt-3" variant="primary">Update profile</Button>
+                            <Button className="mx-1 mt-3 button-profile" variant="primary">Update profile</Button>
                         </div>
                     </Col>
                 </Row>

@@ -16,16 +16,25 @@ export default function ShowListScheduleMaker() {
     }
     return (
         <div className="show-list-schedule-maker">
-            <h3 class="text-center mt-4 mb-4">All Schedule Maker</h3>
+            <h3 class="text-center mt-4 mb-4 title">All Schedule Maker</h3>
             <div className="show-list-schedule">
-                <div className="">
+                <div className="text-center w-100 m-auto">
                     <Box sx={{ width: '100%', typography: 'body1' }}>
                         <TabContext value={value}>
-                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                <TabList onChange={handleChange} aria-label="lab API tabs example">
-                                    <Tab label="Schedule Option One" value="1" />
-                                    <Tab label="Schedule Option Two" value="2" />
-                                    <Tab label="Schedule Option Three" value="3" />
+                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }} className="text-center w-100 m-auto">
+                                <TabList onChange={handleChange} aria-label="lab API tabs example"  >
+                                    <Tab label="One" value="1" />
+                                    <Tab label="Two" value="2" />
+                                    <Tab label="Three" value="3" />
+                                    <Tab label="Four" value="4" />
+                                    <Tab label="Five" value="5" />
+                                    <Tab label="Six" value="6" />
+                                    <Tab label="Seven" value="7" />
+                                    <Tab label="Eight" value="8" />
+                                    <Tab label="Nine" value="9" />
+                                    <Tab label="Ten" value="10" />
+                                    <Tab label="Eleven" value="11" />
+                                    <Tab label="Twelve" value="12" />
                                 </TabList>
                             </Box>
                             <TabPanel value="1"><ItemSchedule /></TabPanel>
