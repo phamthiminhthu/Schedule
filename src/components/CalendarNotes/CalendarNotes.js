@@ -32,7 +32,7 @@ export default function CalendarNotes() {
   const handleEvents = (events) => {
     setCurrentEvents(events)
   }
-
+  const [checkAction, setCheckAction] = useState(false)
 
   const [events, setEvents] = useState(
     {
@@ -57,7 +57,14 @@ export default function CalendarNotes() {
   //update notes
   const handleOpenModalUpdate = (clickInfo) => {
     setShow(true);
+    setCheckAction(false);
     setSelectInfo(clickInfo);
+    setEvents({
+      title: clickInfo.event.title,
+      description: clickInfo.event.extendedProps.description,
+      startime: clickInfo.event.start,
+      endtime: clickInfo.event.end
+    });
     console.log(clickInfo);
     if (moment(clickInfo.start, 'YYYY-dd-mm', true).isValid()) {
       clickInfo.start.setHours(clickInfo.event.start.getHours() + 7)
@@ -83,6 +90,7 @@ export default function CalendarNotes() {
 
   //create new note
   function handleCreateNewNote(selectInfo) {
+    setCheckAction(true);
     setShow(true);
     setSelectInfo(selectInfo);
     setEvents({
@@ -140,7 +148,7 @@ export default function CalendarNotes() {
   function renderEventContent(eventInfo) {
     return (
       <Tooltip title={<Typography color="white">{eventInfo.event.extendedProps.description}</Typography>}
-      placement="top" arrow>
+        placement="top" arrow>
         <div>
           <b>{eventInfo.timeText} &nbsp;</b>
           <i>{eventInfo.event.title}</i> <br />
@@ -180,12 +188,15 @@ export default function CalendarNotes() {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton className='title-notes-modal'>
-          <Modal.Title >Create New Note</Modal.Title>
+          {
+            checkAction ? 
+            (<Modal.Title>Create New Note</Modal.Title>) : (<Modal.Title>Edit Note</Modal.Title>)
+          }
         </Modal.Header>
         <Modal.Body>
           <Row>
             <Col xs="12">
-              <div className="mt-2 mb-3">
+              <div className="mt-2 mb-2">
                 <h6>Title</h6>
                 <TextField fullWidth label="Title" variant="outlined" value={events.title} onChange={handleChange('title')} />
                 <h6>Desription</h6>
@@ -193,7 +204,7 @@ export default function CalendarNotes() {
               </div>
             </Col>
             <Col xs="6">
-              <div className=" mb-3">
+              <div className="">
                 <h6>Startime Event</h6>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DateTimePicker
@@ -206,7 +217,7 @@ export default function CalendarNotes() {
               </div>
             </Col>
             <Col xs="6">
-              <div className=" mb-3">
+              <div className="">
                 <h6>Endtime Event</h6>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DateTimePicker
@@ -224,25 +235,42 @@ export default function CalendarNotes() {
 
         </Modal.Body>
         <Modal.Footer>
-          <Row>
 
-            <Button variant="primary" className="saveChange" onClick={handleDelete}>
-              <DeleteIcon></DeleteIcon>
-            </Button>
+          {
+            checkAction ?
+              (
+                <div className="d-flex flex-row-reverse bd-highlight">
+                  <Button variant="secondary" onClick={handleClose}>
+                    Cancel
+                  </Button>
+                  <Button variant="primary" className="saveChange" onClick={handleSave}>
+                    Save
+                  </Button>
+                </div>
+              ) : (
+                <Row>
 
-            <div className="d-flex flex-row-reverse bd-highlight">
-              <Button variant="secondary" onClick={handleClose}>
-                Cancel
-              </Button>
-              <Button variant="primary" className="saveChange" onClick={handleSave}>
-                Save
-              </Button>
-              <Button variant="primary" className="saveChange" onClick={handleEdit}>
-                Edit
-              </Button>
-            </div>
+                  <Col xs="3">
+                    <Button variant="primary" className="saveChange" onClick={handleDelete}>
+                      <DeleteIcon></DeleteIcon>
+                    </Button>
+                  </Col>
 
-          </Row>
+                  <Col xs="9">
+                    <div className="d-flex flex-row-reverse bd-highlight">
+                      <Button variant="secondary" onClick={handleClose}>
+                        Cancel
+                      </Button>
+                      <Button variant="primary" className="saveChange" onClick={handleEdit}>
+                        Edit
+                      </Button>
+                    </div>
+                  </Col>
+
+                </Row>
+              )
+          }
+
 
         </Modal.Footer>
       </Modal>
