@@ -21,9 +21,8 @@ export default function AddSubjectByTeacher() {
             maLop: "",
             teacher: "",
             weekDays: "",
-            startime: null,
-            endtime: null
-
+            startime: new Date(),
+            endtime: new Date()
         }]
     );
     function addClassSubject() {
@@ -31,8 +30,8 @@ export default function AddSubjectByTeacher() {
             maLop: "",
             teacher: "",
             weekDays: "",
-            startime: null,
-            endtime: null
+            startime: new Date(),
+            endtime: new Date()
         }]
         setListClass(newList)
     }
@@ -45,17 +44,133 @@ export default function AddSubjectByTeacher() {
 
     }
 
-    const handleEditFieldOfItem = (event, itemIndex, fieldName) => {
-        const value = event.target.value;
-        setListClass({
-            listClass: listClass.map((item, index) => {
-                if (index === itemIndex) {
-                    return { ...item, [fieldName]: value };
-                }
+   
+    const handleEditFieldOfItem = (index, name) => e => {
+        let newListClass = listClass.map((item, i) => {
+            if (index === i) {
+                return { ...item, [name]: e.target.value }
+            } else {
                 return item;
-            })
+            }
         });
-    };
+        setListClass(newListClass);
+    }
+    const handleEditFieldOfItemTime = (index, name) => e => {
+        let newListClass = listClass.map((item, i) => {
+            if (index == i) {
+                return { ...item, [name]: e }
+            } else {
+                return item;
+            }
+        });
+        setListClass(newListClass);
+    }
+
+    console.log(listClass);
+    console.log(new Date());
+    const showListClass = (listClass) => {
+
+        return (
+            <>
+                {
+                    listClass.map((item, index) => {
+                        return (
+                            <div className="form-add-class mb-4 mt-4" key={index}>
+                                <h3 className="title text-center mb-3 mt-3">Thông tin lớp học {index + 1}</h3>
+
+                                <div>
+                                    <Row>
+                                        <Col xs="2 mb-3">
+                                            <p className="name-title-form">Mã lớp HP:</p>
+                                        </Col>
+                                        <Col xs="2">
+                                            <TextField fullWidth label="Mã lớp" variant="outlined" value={item.maLop} onChange={handleEditFieldOfItem(index, 'maLop')} />
+                                        </Col>
+                                        <Col xs="2">
+                                            <p className="name-title-form">Giáo viên:</p>
+                                        </Col>
+                                        <Col xs="6">
+                                            <TextField fullWidth label="Teacher" variant="outlined" value={item.teacher} onChange={handleEditFieldOfItem(index, 'teacher')} />
+                                        </Col>
+                                        <Col xs="2">
+                                            <p className="name-title-form">WeekDays:</p>
+                                        </Col>
+                                        <Col xs="2">
+                                            <Box>
+                                                <FormControl fullWidth >
+                                                    <InputLabel>Day</InputLabel>
+                                                    <Select
+                                                        fullWidth
+                                                        labelId="demo-simple-select-label"
+                                                        value={item.weekDays}
+                                                        label="weekday"
+                                                        className="form-select-week"
+                                                        onChange={handleEditFieldOfItem( index, 'weekDays')}
+                                                    >
+
+                                                        <MenuItem value="2">Thứ 2</MenuItem>
+                                                        <MenuItem value="3">Thứ 3</MenuItem>
+                                                        <MenuItem value="4">Thứ 4</MenuItem>
+                                                        <MenuItem value="5">Thứ 5</MenuItem>
+                                                        <MenuItem value="6">Thứ 6</MenuItem>
+                                                        <MenuItem value="7">Thứ 7</MenuItem>
+                                                        <MenuItem value="8">Chủ Nhật</MenuItem>
+                                                    </Select>
+                                                </FormControl>
+                                            </Box>
+                                        </Col>
+                                        <Col xs="2">
+                                            <p className="name-title-form">TG bắt đầu:</p>
+                                        </Col>
+                                        <Col xs="2">
+                                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                <TimePicker
+                                                    fullWidth
+                                                    label="Startime"
+                                                    value={item.startime}
+                                                    renderInput={(params) => <TextField {...params} />}
+                                                    onChange={ handleEditFieldOfItemTime(index, 'startime')}
+                                                />
+                                            </LocalizationProvider>
+                                        </Col>
+                                        <Col xs="2">
+                                            <p className="name-title-form">TG kết thúc:</p>
+                                        </Col>
+                                        <Col xs="2">
+                                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                                <TimePicker
+                                                    fullWidth
+                                                    label="EndTime"
+                                                    value={item.endtime}
+                                                    renderInput={(params) => <TextField {...params} />}
+                                                    onChange={handleEditFieldOfItemTime( index, 'endtime')}
+                                                />
+                                            </LocalizationProvider>
+                                        </Col>
+                                    </Row>
+
+
+                                </div>
+
+                                <div>
+
+                                </div>
+
+                                <Nav className="justify-content-end" activeKey="/home">
+                                    <Nav.Item>
+                                        <Nav.Link onClick={deleteClassSubject}><DeleteIcon /></Nav.Link>
+                                    </Nav.Item>
+
+                                </Nav>
+                            </div>
+                        );
+                    })
+
+                }
+            </>
+        )
+    }
+
 
     return (
         <div className="create-new-subject">
@@ -116,100 +231,8 @@ export default function AddSubjectByTeacher() {
                     </div>
 
                     <div>
-                        {
-                            listClass.map((item, index) => {
-                                return (
-                                    <div className="form-add-class mb-4 mt-4" key={index}>
-                                        <h3 className="title text-center mb-3 mt-3">Thông tin lớp học {index + 1}</h3>
-
-                                        <div>
-                                            <Row>
-                                                <Col xs="2 mb-3">
-                                                    <p className="name-title-form">Mã lớp HP:</p>
-                                                </Col>
-                                                <Col xs="2">
-                                                    <TextField fullWidth label="Mã lớp" variant="outlined" value={item.maLop} onChange={(event) => { handleEditFieldOfItem(event, index, 'maLop'); }} />
-                                                </Col>
-                                                <Col xs="2">
-                                                    <p className="name-title-form">Giáo viên:</p>
-                                                </Col>
-                                                <Col xs="6">
-                                                    <TextField fullWidth label="Teacher" variant="outlined" value={item.teacher} onChange={(event) => { handleEditFieldOfItem(event, index, 'teacher'); }} />
-                                                </Col>
-                                                <Col xs="2">
-                                                    <p className="name-title-form">WeekDays:</p>
-                                                </Col>
-                                                <Col xs="2">
-                                                    <Box>
-                                                        <FormControl fullWidth >
-                                                            <InputLabel>Day</InputLabel>
-                                                            <Select
-                                                                fullWidth
-                                                                labelId="demo-simple-select-label"
-                                                                value={item.weekDays}
-                                                                label="weekday"
-                                                                className="form-select-week"
-                                                                onChange={(event) => { handleEditFieldOfItem(event, index, 'weekDays'); }}
-                                                            >
-
-                                                                <MenuItem value="2">Thứ 2</MenuItem>
-                                                                <MenuItem value="3">Thứ 3</MenuItem>
-                                                                <MenuItem value="4">Thứ 4</MenuItem>
-                                                                <MenuItem value="5">Thứ 5</MenuItem>
-                                                                <MenuItem value="6">Thứ 6</MenuItem>
-                                                                <MenuItem value="7">Thứ 7</MenuItem>
-                                                                <MenuItem value="8">Chủ Nhật</MenuItem>
-                                                            </Select>
-                                                        </FormControl>
-                                                    </Box>
-                                                </Col>
-                                                <Col xs="2">
-                                                    <p className="name-title-form">TG bắt đầu:</p>
-                                                </Col>
-                                                <Col xs="2">
-                                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                                        <TimePicker
-                                                            fullWidth
-                                                            label="Startime"
-                                                            value={item.startime}
-                                                            renderInput={(params) => <TextField {...params} />}
-                                                            onChange={(event) => { handleEditFieldOfItem(event, index, 'startime'); }}
-                                                        />
-                                                    </LocalizationProvider>
-                                                </Col>
-                                                <Col xs="2">
-                                                    <p className="name-title-form">TG kết thúc:</p>
-                                                </Col>
-                                                <Col xs="2">
-                                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                                        <TimePicker
-                                                            fullWidth
-                                                            label="EndTime"
-                                                            value={item.endtime}
-                                                            renderInput={(params) => <TextField {...params} />}
-                                                            onChange={(event) => { handleEditFieldOfItem(event, index, 'endtime'); }}
-                                                        />
-                                                    </LocalizationProvider>
-                                                </Col>
-                                            </Row>
-
-
-                                        </div>
-
-                                        <div>
-
-                                        </div>
-
-                                        <Nav className="justify-content-end" activeKey="/home">
-                                            <Nav.Item>
-                                                <Nav.Link onClick={deleteClassSubject}><DeleteIcon /></Nav.Link>
-                                            </Nav.Item>
-
-                                        </Nav>
-                                    </div>
-                                );
-                            })
-                        }
+                        {console.log(typeof listClass)}
+                        {showListClass(listClass)}
                     </div>
                 </div>
             </div>

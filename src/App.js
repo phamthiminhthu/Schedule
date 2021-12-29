@@ -1,7 +1,7 @@
 import './App.css';
 import { Container } from 'react-bootstrap';
 import Example from './components/makeNotes/MakeNotes';
-
+import HeaderMain from './components/header/headerMain/HeaderMain'
 import HeaderSecond from './components/header/headerSecond/HeaderSecond';
 import HeaderHasAuthor from './components/headerHasAuthor/HeaderHasAuthor';
 import CalendarNotes from './components/CalendarNotes/CalendarNotes';
@@ -28,19 +28,23 @@ function App() {
   return (
     <div className="App">
       {/* <HeaderHasAuthor /> */}
-      <HeaderSecond />
-      <SpeakerPage />
+  {/* <HeaderSecond />
+      <SpeakerPage />  */}
+      {/* <Register/> */}
+      {/* <SignIn/> */}
+      {/* <HeaderMain /> */}
+      {/* <Home /> */}
       <Container>
 
 
-        {/* <HeaderMain />
-      <Introduce />
+
+        {/* <Introduce />
       <Speaker />
 
       <ScheduleDemo />
       <Reviews />
       <News />
-      <Footer /> */}
+      */}
 
         {/* <MyNotes /> */}
         {/* <Account/> */}
@@ -50,12 +54,12 @@ function App() {
 
         {/* <HeaderSecond/>  */}
 
-        {/* <CalendarNotes /> */}
+        <CalendarNotes />
 
 
+        
 
-        {/* <Register/> */}
-        {/* <SignIn/> */}
+
         {/* <Profile/> */}
 
         {/* <CalendarNotes/>  */}
@@ -67,10 +71,10 @@ function App() {
 
         {/* <ShowListScheduleMaker/> */}
         {/* <HeaderHome/> */}
-        
+
 
       </Container>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

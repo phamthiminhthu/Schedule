@@ -12,7 +12,11 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 import Button from '@mui/material/Button';
 import propTypes from 'prop-types';
 import './CalendarNotes.scss';
-import {Row, Col} from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import DeleteIcon from '@mui/icons-material/Delete';
+import moment from 'moment';
 
 export default function CalendarNotes() {
 
@@ -24,94 +28,127 @@ export default function CalendarNotes() {
     onSubmit: null,
   }
 
-
-  const [weekendsVisible, setweek] = useState(true);
   const [currentEvents, setCurrentEvents] = useState([])
-  const [show, setShow] = useState(false);
-
-  const [valueTime, setValueTime] = React.useState(new Date());
-  const [valueTime2, setValueTime2] = React.useState(new Date());
-  const [title, setTitle] = React.useState('');
-
-  const [selectInfo, setSelectInfo] = React.useState('');
-
-
-  function handleShow(selectInfo) {
-    setShow(true);
-    setSelectInfo(selectInfo);
+  const handleEvents = (events) => {
+    setCurrentEvents(events)
   }
 
+
+  const [events, setEvents] = useState(
+    {
+      title: '',
+      description: '',
+      startime: null,
+      endtime: null
+    }
+  );
+
+  const handleChange = (props) => (e) => {
+    setEvents({ ...events, [props]: e.target.value })
+  }
+
+  const handleChangeTime = (props) => (e) => {
+    setEvents({ ...events, [props]: e })
+  }
+
+  const [selectInfo, setSelectInfo] = React.useState('');
+  const [show, setShow] = useState(false);
+
+  //update notes
+  const handleOpenModalUpdate = (clickInfo) => {
+    setShow(true);
+    setSelectInfo(clickInfo);
+    console.log(clickInfo);
+    if (moment(clickInfo.start, 'YYYY-dd-mm', true).isValid()) {
+      clickInfo.start.setHours(clickInfo.event.start.getHours() + 7)
+      clickInfo.start.toISOString().slice(0, 19)
+
+    }
+    if (moment(events.endtime, 'YYYY-dd-mm', true).isValid()) {
+      events.endtime.setHours(events.endtime.getHours() + 7)
+      events.endtime.toISOString().slice(0, 19)
+
+    }
+
+  }
+
+  //edit notes
+  function handleEdit() {
+    selectInfo.event.setProp('title', events.title);
+    selectInfo.event.setStart(events.startime);
+    selectInfo.event.setEnd(events.endtime);
+    selectInfo.event.setExtendedProp('description', events.description);
+    setShow(false);
+  }
+
+  //create new note
+  function handleCreateNewNote(selectInfo) {
+    setShow(true);
+    setSelectInfo(selectInfo);
+    setEvents({
+      title: '',
+      description: '',
+      startime: selectInfo.start,
+      endtime: selectInfo.start
+    });
+  }
+
+  //add event new notes
   function handleSave() {
     setShow(false);
     if (selectInfo) {
       let calendarApi = selectInfo.view.calendar
       calendarApi.unselect()
-      let dateClick = selectInfo.startStr;
-      setTitle('');
 
-      if (title != '') {
-        valueTime.setHours(valueTime.getHours() + 7)
-        valueTime2.setHours(valueTime2.getHours() + 7)
+      if (events.title != '') {
+        if (moment(events.startime, 'YYYY-dd-mm', true).isValid()) {
+          events.startime.setHours(events.startime.getHours() + 7)
+          events.endtime.setHours(events.endtime.getHours() + 7)
+          events.startime.toISOString().slice(0, 19)
+          events.endtime.toISOString().slice(0, 19)
+        }
+
         calendarApi.addEvent({
           id: createEventId(),
-          title,
-          start: valueTime.toISOString().slice(0, 19),
-          end: valueTime2.toISOString().slice(0, 19)
+          title: events.title,
+          start: events.startime,
+          end: events.endtime,
+          extendedProps: {
+            description: events.description
+          }
         })
       }
     }
 
   }
 
+
+  //close notes
   function handleClose(e) {
     setShow(false);
   }
-
-  function handelValueTitle(e) {
-    setTitle(e.target.value);
-  }
-
-  const handleEvents = (events) => {
-    setCurrentEvents(events)
-  }
-
-  const [clickInfo, setClickInfo] = useState('');
-  const [showDelete, setShowDelete] = useState(false);
-
-  const handleCloseDelete = () => setShowDelete(false);
-  function handleShowDelete(clickInfo) {
-    setShowDelete(true);
-    setClickInfo(clickInfo)
-  }
-
-
-  function handleEventClick() {
-
-    if (clickInfo) {
-      clickInfo.event.remove()
+  //delete notes
+  function handleDelete() {
+    if (selectInfo) {
+      selectInfo.event.remove()
     }
-    setShowDelete(false)
+    setShow(false);
 
   }
 
-
-  //render len timetable
+  //render timetable
   function renderEventContent(eventInfo) {
     return (
-      <>
-        <b>{eventInfo.timeText} &nbsp;</b>
-        <i>{eventInfo.event.title}</i>
-      </>
+      <Tooltip title={<Typography color="white">{eventInfo.event.extendedProps.description}</Typography>}
+      placement="top" arrow>
+        <div>
+          <b>{eventInfo.timeText} &nbsp;</b>
+          <i>{eventInfo.event.title}</i> <br />
+        </div>
+      </Tooltip>
+
     )
   }
-
-  // function checkTime(startime, endtime){
-  //   const dateStart = startime.toISOString().slice(0, 10);
-  //   const dateEnd = endtime.toISOString().slice(0, 10);
-  //   console.log(dateStart > dateEnd);
-  // }
-
-
 
   return (
     <div className="time-table" style={{ 'width': '80%', 'margin': '0 auto' }}>
@@ -132,10 +169,11 @@ export default function CalendarNotes() {
           dayMaxEvents={true}
           weekends={true}
           initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-          select={handleShow}
-          eventClick={handleShowDelete}
-          eventContent={renderEventContent} // custom render function
+          select={handleCreateNewNote}
+          eventClick={handleOpenModalUpdate}
+          eventContent={renderEventContent}// custom render function
           eventsSet={handleEvents}
+
 
         />
       </div>
@@ -149,36 +187,33 @@ export default function CalendarNotes() {
             <Col xs="12">
               <div className="mt-2 mb-3">
                 <h6>Title</h6>
-                <TextField fullWidth label="Title" variant="outlined" value={title} onChange={handelValueTitle} />
+                <TextField fullWidth label="Title" variant="outlined" value={events.title} onChange={handleChange('title')} />
+                <h6>Desription</h6>
+                <TextField fullWidth label="Title" variant="outlined" value={events.description} onChange={handleChange('description')} />
               </div>
             </Col>
             <Col xs="6">
-              <div className="mt-2 mb-3">
+              <div className=" mb-3">
                 <h6>Startime Event</h6>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DateTimePicker
                     renderInput={(props) => <TextField {...props} />}
                     label="Startime"
-                    value={valueTime}
-                    onChange={(newValueTime) => {
-                      setValueTime(newValueTime);
-                    }}
+                    value={events.startime}
+                    onChange={handleChangeTime('startime')}
                   />
                 </LocalizationProvider>
               </div>
             </Col>
             <Col xs="6">
-
-              <div className="mt-2 mb-3">
+              <div className=" mb-3">
                 <h6>Endtime Event</h6>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DateTimePicker
                     renderInput={(props) => <TextField {...props} />}
                     label="Endtime"
-                    value={valueTime2}
-                    onChange={(newValueTime2) => {
-                      setValueTime2(newValueTime2);
-                    }}
+                    value={events.endtime}
+                    onChange={handleChangeTime('endtime')}
                   />
                 </LocalizationProvider>
               </div>
@@ -189,27 +224,26 @@ export default function CalendarNotes() {
 
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" className="saveChange" onClick={handleSave}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          <Row>
 
-      <Modal show={showDelete} onHide={handleCloseDelete}>
-        <Modal.Header closeButton className='title-notes-modal'>
-          <Modal.Title className="text-center">Xác nhận</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Bạn có muốn xoá ghi chú này không?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseDelete}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleEventClick}>
-            Confirm
-          </Button>
+            <Button variant="primary" className="saveChange" onClick={handleDelete}>
+              <DeleteIcon></DeleteIcon>
+            </Button>
+
+            <div className="d-flex flex-row-reverse bd-highlight">
+              <Button variant="secondary" onClick={handleClose}>
+                Cancel
+              </Button>
+              <Button variant="primary" className="saveChange" onClick={handleSave}>
+                Save
+              </Button>
+              <Button variant="primary" className="saveChange" onClick={handleEdit}>
+                Edit
+              </Button>
+            </div>
+
+          </Row>
+
         </Modal.Footer>
       </Modal>
 
